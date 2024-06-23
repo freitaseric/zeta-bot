@@ -1,4 +1,3 @@
-import * as os from 'node:os'
 import { MightLogger } from 'might-log'
 import { Configuration } from './app'
 import { bootstrapApplication } from './bootstrap'

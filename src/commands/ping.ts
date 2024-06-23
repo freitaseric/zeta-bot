@@ -3,7 +3,7 @@ import { createEmbed } from '@/utils'
 
 export default new Command({
 	name: 'ping',
-	description: 'Mostra as latências do aplicativo.',
+	description: 'Mostra minhas latências.',
 	run: async ({ interaction, client }) => {
 		const start = Date.now()
 		const _users = client.database.user.findMany()
