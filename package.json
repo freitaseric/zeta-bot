@@ -2,14 +2,13 @@
   "name": "zeta-bot",
   "version": "0.1.0",
   "description": "ZetaBot is a discord application that provides a realistic game with economy, roleplay, bets and more for your discord server.",
-  "module": "dist/index.js",
-  "type": "module",
+  "main": "dist/index.js",
   "scripts": {
     "build:bundle": "bun run ./scripts/bundle.js",
-    "build:dev": "ENVIRONMENT=dev bun run build:transpile",
-    "build:prod": "ENVIRONMENT=prod bun run build:transpile",
-    "start:dev": "bun run src/index.ts --watch",
-    "start:prod": "bun run dist/index.js"
+    "build:dev": "ENVIRONMENT=dev bun run build:bundle",
+    "build:prod": "ENVIRONMENT=prod rm -rf dist/ && bunx tsup && bunx tsc-alias -p tsconfig.json && mkdir dist/events",
+    "start:dev": "bun run src/index.ts",
+    "start:prod": "ENVIRONMENT=prod node ."
   },
   "keywords": [
     "discord",
@@ -28,14 +27,15 @@
   "devDependencies": {
     "@biomejs/biome": "^1.8.2",
     "@types/bun": "^1.1.5",
-    "@types/node": "^18.19.38",
+    "@types/node": "^18.19.39",
     "prisma": "^5.15.1",
+    "tsup": "^8.1.0",
     "typescript": "^4.9.5"
   },
   "dependencies": {
     "@prisma/client": "^5.15.1",
     "discord.js": "^14.15.3",
     "dotenv": "^16.4.5",
-    "might-log": "^0.1.6"
+    "might-log": "0.2.1"
   }
 }

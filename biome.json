@@ -7,17 +7,17 @@
   },
   "organizeImports": {
     "enabled": true,
-    "ignore": ["dist/*"]
+    "ignore": ["./dist/*"]
   },
   "linter": {
     "enabled": true,
     "rules": {
       "recommended": true
     },
-    "ignore": ["dist/*"]
+    "ignore": ["./dist/*"]
   },
   "formatter": {
-    "ignore": ["dist/*"]
+    "ignore": ["./dist/*"]
   },
   "javascript": {
     "formatter": {
