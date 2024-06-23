@@ -1,6 +1,13 @@
-import ExtendedClient from "./structs/ExtendedClient";
+import * as os from 'node:os'
+import { MightLogger } from 'might-log'
+import { Configuration } from './app'
+import { bootstrapApplication } from './bootstrap'
 
-const client = new ExtendedClient();
-client.start()
+export const logger = new MightLogger({
+	verbosity: 3,
+	locale: 'pt-br',
+	pretty: true,
+})
 
-export { client };
+export const { client, environment } = bootstrapApplication()
+export const config = new Configuration()
