@@ -1,4 +1,4 @@
-import fs from 'node:fs'
+import fs, { type PathLike } from 'node:fs'
 import path from 'node:path'
 import type {
 	ButtonCollection,
@@ -79,6 +79,7 @@ export class Client extends DiscordClient {
 		const slashCommands: Array<ApplicationCommandDataResolvable> = new Array()
 
 		const commandsPath = path.join(Client.PATH, 'commands')
+		this.ensureDir(commandsPath)
 		for (const path of fs
 			.readdirSync(commandsPath, { recursive: true })
 			.filter(entryConditionCommands)) {
@@ -101,6 +102,7 @@ export class Client extends DiscordClient {
 
 		// Events
 		const eventsPath = path.join(Client.PATH, 'events')
+		this.ensureDir(eventsPath)
 		for (const path of fs
 			.readdirSync(eventsPath, { recursive: true })
 			.filter(entryConditionEvents)) {
@@ -121,6 +123,12 @@ export class Client extends DiscordClient {
 					)
 				}
 			})
+		}
+	}
+
+	private ensureDir(path: PathLike) {
+		if (!fs.existsSync(path)) {
+			fs.mkdirSync(path)
 		}
 	}
 }
