@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "ZetaBot is a discord application that provides a realistic game with economy, roleplay, bets and more for your discord server.",
   "main": "dist/index.js",
+  "license": "Apache-2.0",
   "scripts": {
     "build:bundle": "bun run ./scripts/bundle.js",
     "build:dev": "ENVIRONMENT=dev bun run build:bundle",
@@ -23,11 +24,11 @@
     "name": "Eric Freitas",
     "url": "https://github.com/freitaseric"
   },
-  "license": "Apache-2.0",
   "devDependencies": {
     "@biomejs/biome": "^1.8.2",
     "@types/bun": "^1.1.5",
     "@types/node": "^18.19.39",
+    "file-saver": "^2.0.5",
     "prisma": "^5.15.1",
     "tsup": "^8.1.0",
     "typescript": "^4.9.5"

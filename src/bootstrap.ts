@@ -2,7 +2,6 @@ import type { CommandInteractionOptionResolver } from 'discord.js'
 import { colorer } from 'might-log'
 import { logger } from '.'
 import { Client } from './app'
-import { Configuration } from './app/Configuration'
 import { PresenceUpdater } from './utils'
 
 export function bootstrapApplication() {
