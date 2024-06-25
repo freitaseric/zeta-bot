@@ -6,6 +6,7 @@ import {
 	sendTechnicalInformationsPage,
 } from './informations/botInfo.lib'
 import { commandLinksHandler } from './informations/botLinks.lib'
+import { commandNotImplemented } from '@/utils/functions'
 
 export default new Command({
 	name: 'zeta',
@@ -21,6 +22,11 @@ export default new Command({
 			description: 'Veja alguns links úteis.',
 			type: ApplicationCommandOptionType.Subcommand,
 		},
+		{
+			name: 'tutorial',
+			description: 'Tenha acesso a um tutorial completo.',
+			type: ApplicationCommandOptionType.Subcommand,
+		},
 	],
 	run: async ({ interaction, options }) => {
 		const subCommand = options.getSubcommand() as CommandZetaSubcommand
@@ -32,6 +38,10 @@ export default new Command({
 			}
 			case 'links': {
 				await commandLinksHandler(interaction)
+				break
+			}
+			case 'tutorial': {
+				await commandNotImplemented(interaction)
 				break
 			}
 		}
@@ -48,4 +58,4 @@ export default new Command({
 	]),
 })
 
-type CommandZetaSubcommand = 'informações' | 'links'
+type CommandZetaSubcommand = 'informações' | 'links' | 'tutorial'

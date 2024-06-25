@@ -2,6 +2,7 @@ import {
 	ActionRowBuilder,
 	ButtonBuilder,
 	type ButtonComponentData,
+	type CommandInteraction,
 	EmbedBuilder,
 	type EmbedData,
 	type User,
@@ -33,4 +34,25 @@ export function createButtonRow(...buttons: Partial<ButtonComponentData>[]) {
 	}
 
 	return new ActionRowBuilder<ButtonBuilder>({ components })
+}
+
+export async function commandNotImplemented(
+	interaction: CommandInteraction,
+	deferred = false,
+) {
+	if (deferred) {
+		await interaction.editReply({
+			content:
+				'**:warning: Ops... Parece que você está tentando utilizar um comando que ainda não foi implementado, tente novamente mais tarde!**\n\n> *Se você tem certeza que isso é um erro entre em contato com o suporte!*',
+			components: [],
+			embeds: [],
+			attachments: [],
+		})
+	} else {
+		await interaction.reply({
+			ephemeral: true,
+			content:
+				'**:warning: Ops... Parece que você está tentando utilizar um comando que ainda não foi implementado, tente novamente mais tarde!**\n\n> *Se você tem certeza que isso é um erro entre em contato com o suporte!*',
+		})
+	}
 }
