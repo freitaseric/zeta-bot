@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
-    "lib": ["ESNext"],
+    "lib": [
+      "ESNext"
+    ],
     "rootDir": "./src",
     "outDir": "./dist",
     "target": "ESNext",
@@ -13,10 +15,22 @@
     "skipDefaultLibCheck": true,
     "importHelpers": true,
     "experimentalDecorators": true,
+    "resolveJsonModule": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": [
+        "./src/*"
+      ],
+      "#/*": [
+        "./*.json"
+      ]
     }
   },
-  "include": ["src/**/*", "enviroment.d.ts"],
-  "exclude": ["node_modules", "**/*.spec.ts"]
+  "include": [
+    "src/**/*",
+    "enviroment.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts"
+  ]
 }

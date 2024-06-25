@@ -19,6 +19,7 @@ import {
 } from 'discord.js'
 import dotenv from 'dotenv'
 import { logger } from '..'
+import { setTimeout as sleep } from 'node:timers/promises'
 import type { Event } from './Event'
 dotenv.config()
 
@@ -38,22 +39,13 @@ export class Client extends DiscordClient {
 			partials: Object.values(Partials) as Partials[],
 		})
 
-		this.registerModules()
+		this.registerEvents()
+		this.registerCommands()
 		this.login(process.env.BOT_TOKEN)
 	}
 
-	private async registerCommands(commands: ApplicationCommandDataResolvable[]) {
-		this.application?.commands.set(commands).catch(err => {
-			this.commands.clear()
-			logger.error(
-				'An error has ocurred while trying to define the application commands',
-				err,
-			)
-		})
-	}
-
-	private registerModules() {
-		const entryConditionCommands = (entry: string | Buffer) => {
+	private async registerCommands() {
+		const entryCondition = (entry: string | Buffer) => {
 			const isFile = fs
 				.statSync(path.join(commandsPath, entry.toString()))
 				.isFile()
@@ -64,7 +56,38 @@ export class Client extends DiscordClient {
 
 			return isFile && isJsOrTsFile && !isLib
 		}
-		const entryConditionEvents = (entry: string | Buffer) => {
+
+		const commandsPath = path.join(Client.PATH, 'commands')
+		this.ensureDir(commandsPath)
+
+		for (const path of fs
+			.readdirSync(commandsPath, { recursive: true })
+			.filter(entryCondition)) {
+			import(`../commands/${path}`).then(imported => {
+				const command: CommandOptions = imported.default
+				if (!command?.name) return
+				this.commands.set(command.name, command)
+
+				if (command.buttons)
+					command.buttons.each((button, customId) =>
+						this.buttons.set(customId, button),
+					)
+				if (command.selects)
+					command.selects.each((select, customId) =>
+						this.selects.set(customId, select),
+					)
+				if (command.modals)
+					command.modals.each((modal, customId) =>
+						this.modals.set(customId, modal),
+					)
+			})
+		}
+	}
+
+	private registerEvents() {
+		const eventsPath = path.join(Client.PATH, 'events')
+
+		const entryCondition = (entry: string | Buffer) => {
 			const isFile = fs
 				.statSync(path.join(eventsPath, entry.toString()))
 				.isFile()
@@ -75,37 +98,11 @@ export class Client extends DiscordClient {
 			return isFile && isJsOrTsFile
 		}
 
-		// Commands
-		const slashCommands: Array<ApplicationCommandDataResolvable> = new Array()
-
-		const commandsPath = path.join(Client.PATH, 'commands')
-		this.ensureDir(commandsPath)
-		for (const path of fs
-			.readdirSync(commandsPath, { recursive: true })
-			.filter(entryConditionCommands)) {
-			import(`../commands/${path}`).then(imported => {
-				const command: CommandOptions = imported.default
-				if (!command?.name) return
-				this.commands.set(command.name, command)
-				slashCommands.push(command)
-
-				if (command.buttons)
-					command.buttons.each((button, name) => this.buttons.set(name, button))
-				if (command.selects)
-					command.selects.each((select, name) => this.selects.set(name, select))
-				if (command.modals)
-					command.modals.each((modal, name) => this.modals.set(name, modal))
-			})
-		}
-
-		this.on('ready', () => this.registerCommands(slashCommands))
-
-		// Events
-		const eventsPath = path.join(Client.PATH, 'events')
 		this.ensureDir(eventsPath)
+
 		for (const path of fs
 			.readdirSync(eventsPath, { recursive: true })
-			.filter(entryConditionEvents)) {
+			.filter(entryCondition)) {
 			import(`../events/${path}`).then(imported => {
 				const event: Event<keyof ClientEvents> = imported.default
 				this.events.set(event.name, event)
@@ -129,6 +126,45 @@ export class Client extends DiscordClient {
 	private ensureDir(path: PathLike) {
 		if (!fs.existsSync(path)) {
 			fs.mkdirSync(path)
+		}
+	}
+
+	public async reloadCommands() {
+		try {
+			this.commands.clear()
+			await this.registerCommands()
+
+			return true
+		} catch (error) {
+			this.commands.clear()
+
+			logger.error(
+				'An error has ocurred while trying to reload the application commands!',
+				error as object,
+			)
+
+			return false
+		}
+	}
+
+	public reloadEvents() {
+		try {
+			this.events.clear()
+			this.removeAllListeners()
+
+			this.registerEvents()
+
+			return true
+		} catch (error) {
+			this.events.clear()
+			this.removeAllListeners()
+
+			logger.error(
+				'An error has ocurred while trying to reload the client events!',
+				error as object,
+			)
+
+			return false
 		}
 	}
 }

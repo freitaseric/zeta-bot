@@ -2,7 +2,6 @@ import * as os from 'node:os'
 
 export * from './PresenceUpdater'
 export * from './Math'
-export * from './discord'
 
 export function getRuntimeEnvironment() {
 	return {

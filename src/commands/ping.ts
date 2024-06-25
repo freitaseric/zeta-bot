@@ -1,5 +1,5 @@
 import { Command } from '@/app'
-import { createEmbed } from '@/utils'
+import { createEmbed } from '@/utils/functions'
 
 export default new Command({
 	name: 'ping',

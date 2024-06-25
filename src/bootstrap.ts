@@ -1,4 +1,7 @@
-import type { CommandInteractionOptionResolver } from 'discord.js'
+import type {
+	ApplicationCommandDataResolvable,
+	CommandInteractionOptionResolver,
+} from 'discord.js'
 import { colorer } from 'might-log'
 import { logger } from '.'
 import { Client } from './app'
@@ -8,7 +11,24 @@ export function bootstrapApplication() {
 	const environment = process.env.ENVIRONMENT ?? 'dev'
 	const client = new Client()
 
-	client.once('ready', () => {
+	client.once('ready', async () => {
+		const commands = new Array<ApplicationCommandDataResolvable>()
+
+		for (const command of client.commands.values()) {
+			commands.push(command)
+		}
+
+		try {
+			await client.application?.commands.set(commands)
+		} catch (error) {
+			client.commands.clear()
+
+			logger.error(
+				'An error has ocurred while trying to define the application commands!',
+				error as object,
+			)
+		}
+
 		logger.success(
 			`Application has been conected to ${colorer.hex('#5f9ea0')(client.user?.username)}!`,
 		)
