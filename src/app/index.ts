@@ -1,4 +1,4 @@
 export * from './Client'
 export * from './Command'
 export * from './Event'
-export * from './Configuration'
+export * from './Config'

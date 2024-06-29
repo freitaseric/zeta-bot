@@ -8,9 +8,7 @@ import type {
 	ModalCollection,
 	SelectMenuCollection,
 } from '@/types'
-import { PrismaClient } from '@prisma/client'
 import {
-	type ApplicationCommandDataResolvable,
 	type ClientEvents,
 	Collection,
 	Client as DiscordClient,
@@ -19,7 +17,6 @@ import {
 } from 'discord.js'
 import dotenv from 'dotenv'
 import { logger } from '..'
-import { setTimeout as sleep } from 'node:timers/promises'
 import type { Event } from './Event'
 dotenv.config()
 
@@ -30,8 +27,6 @@ export class Client extends DiscordClient {
 	public selects: SelectMenuCollection = new Collection()
 	public modals: ModalCollection = new Collection()
 	public events: EventCollection = new Collection()
-
-	public database = new PrismaClient()
 
 	constructor() {
 		super({

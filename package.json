@@ -5,11 +5,8 @@
   "main": "dist/index.js",
   "license": "Apache-2.0",
   "scripts": {
-    "build:bundle": "bun run ./scripts/bundle.js",
-    "build:dev": "ENVIRONMENT=dev bun run build:bundle",
-    "build:prod": "ENVIRONMENT=prod rm -rf dist/ && bunx tsup && bunx tsc-alias -p tsconfig.json && mkdir dist/events",
     "start:dev": "bun run src/index.ts",
-    "start:prod": "ENVIRONMENT=prod node ."
+    "start:prod": "NODE_ENV=prod bun run src/index.ts"
   },
   "keywords": [
     "discord",
@@ -28,13 +25,11 @@
     "@biomejs/biome": "^1.8.2",
     "@types/bun": "^1.1.5",
     "@types/node": "^18.19.39",
-    "file-saver": "^2.0.5",
-    "prisma": "^5.15.1",
-    "tsup": "^8.1.0",
+    "prisma": "^5.16.1",
     "typescript": "^5.5.2"
   },
   "dependencies": {
-    "@prisma/client": "^5.15.1",
+    "@prisma/client": "^5.16.1",
     "discord.js": "^14.15.3",
     "dotenv": "^16.4.5",
     "might-log": "0.2.1"

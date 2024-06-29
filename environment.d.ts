@@ -2,7 +2,7 @@ declare global {
 	namespace NodeJS {
 		interface ProcessEnv {
 			BOT_TOKEN: string
-			ENVIRONMENT?: 'prod' | 'dev'
+			NODE_ENV?: 'prod' | 'dev'
 			DATABASE_URL: string
 		}
 	}

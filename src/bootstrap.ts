@@ -2,13 +2,13 @@ import type {
 	ApplicationCommandDataResolvable,
 	CommandInteractionOptionResolver,
 } from 'discord.js'
-import { colorer } from 'might-log'
+import { MightLogger, colorer } from 'might-log'
 import { logger } from '.'
-import { Client } from './app'
+import { Client, Config } from './app'
 import { PresenceUpdater } from './utils'
+import { Database } from './app/Database'
 
 export function bootstrapApplication() {
-	const environment = process.env.ENVIRONMENT ?? 'dev'
 	const client = new Client()
 
 	client.once('ready', async () => {
@@ -36,7 +36,7 @@ export function bootstrapApplication() {
 		const presenceUpdater = new PresenceUpdater(client)
 		presenceUpdater.mainLoop()
 
-		if (environment === 'dev') {
+		if (!Config.isProduction()) {
 			logger.debug(client.events.size, 'event(s) successfully defined!')
 			logger.debug(
 				client.commands.size,
@@ -76,5 +76,30 @@ export function bootstrapApplication() {
 		}
 	})
 
-	return { client, environment }
+	return client
+}
+
+export function bootstrapDatabase() {
+	const db = new Database()
+
+	db.connect()
+		.then(connection => {
+			logger.success('Database connected successfullt')
+			if (!Config.isProduction())
+				logger.debug(
+					Object.values(connection.collections).length,
+					'collections registered!',
+				)
+		})
+		.catch(error => logger.error(error))
+
+	return db
+}
+
+export function bootstrapLogger() {
+	return new MightLogger({
+		locale: 'pt-br',
+		verbosity: Config.isProduction() ? 1 : 3,
+		pretty: !Config.isProduction(),
+	})
 }

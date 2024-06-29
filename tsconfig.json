@@ -1,36 +1,24 @@
 {
-  "compilerOptions": {
-    "lib": [
-      "ESNext"
-    ],
-    "rootDir": "./src",
-    "outDir": "./dist",
-    "target": "ESNext",
-    "module": "CommonJS",
-    "moduleResolution": "Node",
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "skipLibCheck": true,
-    "skipDefaultLibCheck": true,
-    "importHelpers": true,
-    "experimentalDecorators": true,
-    "resolveJsonModule": true,
-    "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "#/*": [
-        "./*.json"
-      ]
-    }
-  },
-  "include": [
-    "src/**/*",
-    "enviroment.d.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "**/*.spec.ts"
-  ]
+	"compilerOptions": {
+		"lib": ["ESNext"],
+		"rootDir": "./src",
+		"outDir": "./dist",
+		"target": "ESNext",
+		"module": "CommonJS",
+		"moduleResolution": "Node",
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"strict": true,
+		"skipLibCheck": true,
+		"skipDefaultLibCheck": true,
+		"importHelpers": true,
+		"experimentalDecorators": true,
+		"resolveJsonModule": true,
+		"paths": {
+			"@/*": ["./src/*"],
+			"#/*": ["./*.json"]
+		}
+	},
+	"include": ["src/**/*", "environment.d.ts"],
+	"exclude": ["node_modules", "**/*.spec.ts"]
 }
