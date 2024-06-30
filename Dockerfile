@@ -1,12 +1,17 @@
 # base image configuration
 FROM oven/bun:latest
-WORKDIR /home/app
+WORKDIR /app
 
-# copying project
-COPY . .
-
-# install dependencies
+# installing dependencies
+COPY package.json bun.lockb /app/
 RUN bun install --frozen-lockfile --production
 
-# run app
+# setting up prisma
+COPY prisma/ /app/
+RUN bunx prisma generate
+
+# copying all missing files
+COPY . .
+
+# running app
 ENTRYPOINT [ "bun", "start:prod" ]

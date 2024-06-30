@@ -7,6 +7,7 @@ import { logger } from '.'
 import { Client, Config } from './app'
 import { PresenceUpdater } from './utils'
 import { Database } from './app/Database'
+import { commandNotImplemented } from './utils/functions'
 
 export function bootstrapApplication() {
 	const client = new Client()
@@ -55,24 +56,23 @@ export function bootstrapApplication() {
 			return client.modals.get(interaction.customId)?.(interaction)
 		}
 
+		if (interaction.isAutocomplete()) {
+			const command = client.commands.get(interaction.commandName)
+
+			if (!command || !command.autoComplete) return
+
+			command.autoComplete(interaction)
+		}
+
 		if (interaction.isCommand()) {
 			const command = client.commands.get(interaction.commandName)
 
-			if (interaction.isAutocomplete() && command?.autoComplete) {
-				command.autoComplete(interaction)
-			}
+			if (!command) return commandNotImplemented(interaction)
 
-			if (!command)
-				return interaction.reply({
-					ephemeral: true,
-					content: 'Este comando ainda não foi configurado!',
-				})
-
-			command.run({
-				client,
-				interaction: interaction,
-				options: interaction.options as CommandInteractionOptionResolver,
-			})
+			command.run(
+				interaction,
+				interaction.options as CommandInteractionOptionResolver,
+			)
 		}
 	})
 
@@ -80,20 +80,7 @@ export function bootstrapApplication() {
 }
 
 export function bootstrapDatabase() {
-	const db = new Database()
-
-	db.connect()
-		.then(connection => {
-			logger.success('Database connected successfullt')
-			if (!Config.isProduction())
-				logger.debug(
-					Object.values(connection.collections).length,
-					'collections registered!',
-				)
-		})
-		.catch(error => logger.error(error))
-
-	return db
+	return new Database()
 }
 
 export function bootstrapLogger() {

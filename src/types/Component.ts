@@ -7,15 +7,15 @@ import type {
 
 export type ButtonCollection = Collection<
 	string,
-	(interaction: ButtonInteraction) => void
+	(interaction: ButtonInteraction) => void | Promise<void>
 >
 
 export type SelectMenuCollection = Collection<
 	string,
-	(interaction: AnySelectMenuInteraction) => void
+	(interaction: AnySelectMenuInteraction) => void | Promise<void>
 >
 
 export type ModalCollection = Collection<
 	string,
-	(interaction: ModalSubmitInteraction) => void
+	(interaction: ModalSubmitInteraction) => void | Promise<void>
 >

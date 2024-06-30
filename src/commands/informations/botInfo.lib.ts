@@ -1,4 +1,4 @@
-import { client } from '@/index'
+import { client, db } from '@/index'
 import { getRuntimeEnvironment } from '@/utils'
 import { createButtonRow, createEmbed } from '@/utils/functions'
 import {
@@ -89,7 +89,7 @@ export async function sendTechnicalInformationsPage(
 ) {
 	await interaction.deferUpdate()
 	const runtime = getRuntimeEnvironment()
-	const users = []
+	const users = await db.users.findMany()
 
 	const embed = createEmbed(interaction.user, {
 		title: `Informações - ${inlineCode(client.user?.username ?? 'BOT')}`,

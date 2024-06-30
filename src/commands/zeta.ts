@@ -28,8 +28,8 @@ export default new Command({
 			type: ApplicationCommandOptionType.Subcommand,
 		},
 	],
-	run: async ({ interaction, options }) => {
-		const subCommand = options.getSubcommand() as CommandZetaSubcommand
+	run: async (interaction, options) => {
+		const subCommand = options?.getSubcommand() as CommandZetaSubcommand
 
 		switch (subCommand) {
 			case 'informações': {

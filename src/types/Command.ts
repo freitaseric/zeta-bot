@@ -15,14 +15,13 @@ import type {
 } from './Component'
 
 export type CommandOptions = ApplicationCommandData & {
-	run: (options: {
-		client: Client
+	run: (
 		interaction:
 			| CommandInteraction
 			| UserContextMenuCommandInteraction
-			| MessageContextMenuCommandInteraction
-		options: CommandInteractionOptionResolver
-	}) => void
+			| MessageContextMenuCommandInteraction,
+		options?: CommandInteractionOptionResolver,
+	) => void
 	autoComplete?: (interaction: AutocompleteInteraction) => void
 	buttons?: ButtonCollection
 	selects?: SelectMenuCollection

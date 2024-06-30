@@ -1,13 +1,13 @@
 import { Command } from '@/app'
 import { createEmbed } from '@/utils/functions'
-// import { db } from '..'
+import { client, db } from '..'
 
 export default new Command({
 	name: 'ping',
 	description: 'Mostra minhas latências.',
-	run: async ({ interaction, client }) => {
+	run: async interaction => {
 		const start = Date.now()
-		// db.users.find()
+		db.users.findMany()
 		const end = Date.now()
 
 		const ping = {

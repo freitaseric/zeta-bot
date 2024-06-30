@@ -5,8 +5,8 @@
   "main": "dist/index.js",
   "license": "Apache-2.0",
   "scripts": {
-    "start:dev": "bun run src/index.ts",
-    "start:prod": "NODE_ENV=prod bun run src/index.ts"
+    "start:dev": "bun run --hot src/index.ts",
+    "start:prod": "NODE_ENV=production bun run src/index.ts"
   },
   "keywords": [
     "discord",
@@ -22,14 +22,15 @@
     "url": "https://github.com/freitaseric"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.8.2",
-    "@types/bun": "^1.1.5",
+    "@biomejs/biome": "^1.8.3",
+    "@types/bun": "^1.1.6",
     "@types/node": "^18.19.39",
     "prisma": "^5.16.1",
     "typescript": "^5.5.2"
   },
   "dependencies": {
     "@prisma/client": "^5.16.1",
+    "bun": "^1.1.17",
     "discord.js": "^14.15.3",
     "dotenv": "^16.4.5",
     "might-log": "0.2.1"

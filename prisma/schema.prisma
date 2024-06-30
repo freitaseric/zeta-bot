@@ -14,5 +14,19 @@ datasource db {
 }
 
 model User {
-  id String @id @unique
+  id      String  @id @unique
+  account Bank    @relation(fields: [bankId], references: [id])
+  bankId  String
+  balance Decimal @default(0.0)
+
+  @@map("users")
+}
+
+model Bank {
+  id        String @id @unique @default(uuid())
+  name      String @unique
+  ownerId   String @unique
+  customers User[]
+
+  @@map("banks")
 }

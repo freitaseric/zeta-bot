@@ -1,0 +1,25 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"type": "bun",
+			"request": "launch",
+			"name": "Debug Bun",
+			"program": "src/index.ts",
+			"cwd": "${workspaceFolder}",
+			"env": {
+				"NODE_ENV": "development"
+			},
+			"strictEnv": false,
+			"watchMode": "hot",
+			"stopOnEntry": false,
+			"runtime": "bun"
+		},
+		{
+			"type": "bun",
+			"request": "attach",
+			"name": "Attach to Bun",
+			"url": "ws://localhost:6499/"
+		}
+	]
+}

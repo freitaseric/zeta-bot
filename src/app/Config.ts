@@ -6,6 +6,6 @@ export class Config {
 	static readonly developerId = '1064162067919163485'
 	static readonly developer = 'oDevEric'
 	static isProduction() {
-		return process.env.ENVIRONMENT === 'prod'
+		return process.env.NODE_ENV === 'production'
 	}
 }

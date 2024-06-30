@@ -7,6 +7,6 @@ docker-compose*
 README.md
 LICENSE
 .vscode
-prisma
+db.pass
 biome.json
 environment.d.ts

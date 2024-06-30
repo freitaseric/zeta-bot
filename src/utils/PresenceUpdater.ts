@@ -2,6 +2,7 @@ import { type ActivitiesOptions, ActivityType, type Client } from 'discord.js'
 import { colorer } from 'might-log'
 import { logger } from '..'
 import { randomInt } from './Math'
+import { Config } from '@/app'
 
 export class PresenceUpdater {
 	public static readonly activities: ActivitiesOptions[] = [
@@ -21,7 +22,6 @@ export class PresenceUpdater {
 			type: ActivityType.Watching,
 		},
 	]
-	public static readonly environment = process.env.ENVIRONMENT ?? 'dev'
 	public currentActivityIndex: number | undefined
 
 	constructor(public readonly client: Client) {}
@@ -34,7 +34,7 @@ export class PresenceUpdater {
 				activities: [PresenceUpdater.activities[randomIndex]],
 			})
 			this.currentActivityIndex = randomIndex
-			if (PresenceUpdater.environment === 'dev')
+			if (!Config.isProduction())
 				logger.debug(
 					'The client presence has been changed to:',
 					PresenceUpdater.activities[randomIndex],
@@ -52,7 +52,7 @@ export class PresenceUpdater {
 		logger.success(
 			`Client presence defined by the ${colorer.hex('#5f9ea0')('MainLoop')}.`,
 		)
-		if (PresenceUpdater.environment === 'dev')
+		if (!Config.isProduction())
 			logger.debug('Initial presence:', PresenceUpdater.activities[0])
 
 		setInterval(() => this.changePresence(), 300000)
